@@ -1,6 +1,6 @@
-# AI assistance: ChatGPT helped draft and debug the PromQL alert expressions.
-# Prompt summary: Application downtime, CPU/RAM/disk thresholds,
-# and image-error rates, with suitable pending durations."
+# AI assistance: ChatGPT.
+# Prompt (reworded): "Help me draft and verify PromQL alerts for application
+# availability, resource usage and image-processing errors."
 
 groups:
   - name: captioning_health
