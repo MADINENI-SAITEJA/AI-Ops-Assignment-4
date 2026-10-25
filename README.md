@@ -17,6 +17,7 @@ independent local receiver.
 | `alertmanager.yml` | Webhook routing and resolved notifications |
 | `grafana_dashboard.json` | Portable dashboard export: 29 panels in five sections |
 | `README.md` | Setup, startup commands and usage |
+| `AI_disclosure.md` | AI assistance and student contributions |
 
 ## Environment and prerequisites
 
@@ -303,3 +304,4 @@ For startup problems, inspect the relevant `runtime/*.log` file and
 http://localhost:9090/targets. A port-in-use error usually means an earlier
 service instance is still running. Prometheus target health and model
 readiness are separate checks.
+
