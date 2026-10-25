@@ -1,0 +1,15 @@
+global:
+  resolve_timeout: 1m
+
+route:
+  receiver: local_webhook
+  group_by: ['alertname']
+  group_wait: 5s
+  group_interval: 10s
+  repeat_interval: 1h
+
+receivers:
+  - name: local_webhook
+    webhook_configs:
+      - url: http://127.0.0.1:18001/alerts
+        send_resolved: true

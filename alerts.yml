@@ -1,0 +1,84 @@
+# AI attribution
+# Prompt: "Write PromQL alerts for the DA3408 CPU captioning application:
+# exporter unavailable for 20 seconds; guest CPU, memory, or root disk
+# usage above 85% for one minute; and image errors above 20% over
+# two minutes with at least five image attempts. Explain each expression."
+
+groups:
+  - name: captioning_health
+    rules:
+      # up=0 means Prometheus cannot successfully scrape the application.
+      - alert: CaptionAppDown
+        expr: up{job="caption_app"} == 0
+        for: 20s
+        labels:
+          severity: critical
+        annotations:
+          summary: Captioning application metrics are unreachable
+          description: Check Streamlit and its metrics endpoint on port 18000.
+
+      # Average idle CPU fraction across cores; subtract from one.
+      - alert: CaptionVmHighCpu
+        expr: |
+          100 * (
+            1 - avg(rate(node_cpu_seconds_total{job="node",mode="idle"}[1m]))
+          ) > 85
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Guest CPU usage exceeds 85%
+          description: CPU usage has remained above the threshold for one minute.
+
+      # MemAvailable includes memory the OS can reclaim.
+      - alert: CaptionVmHighMemory
+        expr: |
+          100 * (
+            1 -
+            node_memory_MemAvailable_bytes{job="node"}
+            /
+            node_memory_MemTotal_bytes{job="node"}
+          ) > 85
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Guest memory usage exceeds 85%
+          description: Check application memory and other running processes.
+
+      # Measure the ext4 root filesystem using available bytes.
+      - alert: CaptionVmRootDiskNearlyFull
+        expr: |
+          100 * (
+            1 -
+            node_filesystem_avail_bytes{job="node",mountpoint="/",fstype="ext4"}
+            /
+            node_filesystem_size_bytes{job="node",mountpoint="/",fstype="ext4"}
+          ) > 85
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Root filesystem usage exceeds 85%
+          description: Check available storage before processing more uploads.
+
+      # Error attempts / all attempts, with a minimum traffic requirement.
+      # An idle application does not satisfy this condition.
+      - alert: CaptionImageErrorRatioHigh
+        expr: |
+          (
+            sum(increase(caption_images_total{job="caption_app",outcome="error"}[2m]))
+            /
+            sum(increase(caption_images_total{job="caption_app"}[2m]))
+            > 0.2
+          )
+          and
+          (
+            sum(increase(caption_images_total{job="caption_app"}[2m])) >= 5
+          )
+        for: 15s
+        labels:
+          severity: warning
+        annotations:
+          summary: More than 20% of recent image attempts failed
+          description: Inspect decoding and inference errors in the application.
