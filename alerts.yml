@@ -1,8 +1,6 @@
-# AI attribution
-# Prompt: "Write PromQL alerts for the DA3408 CPU captioning application:
-# exporter unavailable for 20 seconds; guest CPU, memory, or root disk
-# usage above 85% for one minute; and image errors above 20% over
-# two minutes with at least five image attempts. Explain each expression."
+# AI assistance: ChatGPT helped draft and debug the PromQL alert expressions.
+# Prompt summary: Application downtime, CPU/RAM/disk thresholds,
+# and image-error rates, with suitable pending durations."
 
 groups:
   - name: captioning_health
