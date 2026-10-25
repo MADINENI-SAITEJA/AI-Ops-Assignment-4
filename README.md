@@ -303,20 +303,3 @@ For startup problems, inspect the relevant `runtime/*.log` file and
 http://localhost:9090/targets. A port-in-use error usually means an earlier
 service instance is still running. Prometheus target health and model
 readiness are separate checks.
-
-## AI assistance and submission
-
-ChatGPT helped generate application and metric code, PromQL and monitoring
-configuration, and assisted with debugging. Student work included VM
-deployment, running single-image, ZIP and validation checks, and choosing
-dashboard presentation changes. Query prompts are documented in the YAML
-configuration comments. The student is responsible for explaining the query
-logic during evaluation.
-
-Submit the GitHub repository, `grafana_dashboard.json`, and the required
-approximately one-minute dashboard video with a five-second refresh. A
-technical walkthrough can provide additional implementation evidence.
-
-Keep virtual environments, model downloads, runtime databases, logs,
-credentials and uploaded inputs out of the repository. The installation
-recreates the virtual environment; the model is downloaded on first use.
