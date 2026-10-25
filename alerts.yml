@@ -1,5 +1,5 @@
 # AI assistance: ChatGPT.
-# Prompt (reworded): "Help me draft and verify PromQL alerts for application
+# Prompt: "Help me draft and verify PromQL alerts for application
 # availability, resource usage and image-processing errors."
 
 groups:
